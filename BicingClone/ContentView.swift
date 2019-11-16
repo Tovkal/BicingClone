@@ -9,8 +9,7 @@ struct Station {
 struct ContentView: View {
 
     var body: some View {
-        MapView()
-            .environmentObject(MapViewViewModel())
+        MapView(viewModel: MapViewViewModel())
             .edgesIgnoringSafeArea([.top, .bottom])
     }
 }
@@ -26,7 +25,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
 
-    @EnvironmentObject var viewModel: MapViewViewModel
+    @ObservedObject var viewModel: MapViewViewModel
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
