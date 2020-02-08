@@ -6,11 +6,34 @@ struct Station {
     let longitude: Double
 }
 
-struct ContentView: View {
+struct TestButton: View {
+    @ObservedObject var viewModel: MapViewViewModel
 
     var body: some View {
-        MapView(viewModel: MapViewViewModel())
-            .edgesIgnoringSafeArea([.top, .bottom])
+        Button(action: {
+            self.viewModel.testButtonTap.send()
+        }) {
+            Text("Click to add a station at a random location")
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+    }
+}
+
+struct ContentView: View {
+    @ObservedObject var mapViewModel = MapViewViewModel()
+    
+    var body: some View {
+        ZStack {
+            MapView(stations: $mapViewModel.stations)
+                .edgesIgnoringSafeArea([.top, .bottom])
+            VStack {
+                Spacer()
+                TestButton(viewModel: mapViewModel)
+            }
+            .padding(.bottom, 25)
+        }
     }
 }
 
@@ -24,12 +47,8 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
-
-    @ObservedObject var viewModel: MapViewViewModel
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
+    
+    @Binding var stations: [Station]
 
     func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
         let mapView = MKMapView()
@@ -41,7 +60,8 @@ struct MapView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<MapView>) {
-        for station in viewModel.stations {
+        uiView.removeAnnotations(uiView.annotations)
+        for station in stations {
             let annotation = MKPointAnnotation()
             let coordinate = CLLocationCoordinate2D(latitude: station.latitude,
                                                     longitude: station.longitude)
@@ -49,19 +69,34 @@ struct MapView: UIViewRepresentable {
             uiView.addAnnotation(annotation)
         }
     }
-
-    class Coordinator: NSObject {
-        private let mapView: MapView
-
-        init(_ mapView: MapView) {
-            self.mapView = mapView
-        }
-    }
 }
 
 class MapViewViewModel: ObservableObject {
-    @Published var stations: [Station] = [
+
+    @Published var stations: [Station] = [] {
+        didSet {
+            print(stations)
+        }
+    }
+    let testButtonTap = PassthroughSubject<Void, Never>()
+    private var bag: Set<AnyCancellable> = []
+
+    init() {
+        stations.append(contentsOf: [
         .init(latitude: 41.4048, longitude: 2.1939),
         .init(latitude: 41.4024, longitude: 2.1929)
-    ]
+        ])
+        
+        testButtonTap
+            .sink {
+                self.addRandomStation()
+        }
+        .store(in: &bag)
+    }
+    
+    private func addRandomStation() {
+        let randomLatitude = Double.random(in: 41.402...41.404)
+        let randomLongitude = Double.random(in: 2.192...2.194)
+        self.stations.append(.init(latitude: randomLatitude, longitude: randomLongitude))
+    }
 }
