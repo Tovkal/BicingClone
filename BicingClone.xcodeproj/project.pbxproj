@@ -14,6 +14,8 @@
 		4A55CA992376C44700F004FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A55CA982376C44700F004FD /* Preview Assets.xcassets */; };
 		4A55CA9C2376C44700F004FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A55CA9A2376C44700F004FD /* LaunchScreen.storyboard */; };
 		4A55CAA72376C44700F004FD /* BicingCloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A55CAA62376C44700F004FD /* BicingCloneTests.swift */; };
+		D587128823F7FD3800E2F890 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D587128723F7FD3800E2F890 /* Model.swift */; };
+		D587128A23F7FF2800E2F890 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D587128923F7FF2800E2F890 /* APIProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		4A55CAA22376C44700F004FD /* BicingCloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BicingCloneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A55CAA62376C44700F004FD /* BicingCloneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BicingCloneTests.swift; sourceTree = "<group>"; };
 		4A55CAA82376C44700F004FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D587128723F7FD3800E2F890 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D587128923F7FF2800E2F890 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 				4A55CA8F2376C44500F004FD /* AppDelegate.swift */,
 				4A55CA912376C44500F004FD /* SceneDelegate.swift */,
 				4A55CA932376C44500F004FD /* ContentView.swift */,
+				D587128723F7FD3800E2F890 /* Model.swift */,
+				D587128923F7FF2800E2F890 /* APIProvider.swift */,
 				4A55CA952376C44700F004FD /* Assets.xcassets */,
 				4A55CA9A2376C44700F004FD /* LaunchScreen.storyboard */,
 				4A55CA9D2376C44700F004FD /* Info.plist */,
@@ -210,7 +216,9 @@
 			files = (
 				4A55CA902376C44500F004FD /* AppDelegate.swift in Sources */,
 				4A55CA922376C44500F004FD /* SceneDelegate.swift in Sources */,
+				D587128A23F7FF2800E2F890 /* APIProvider.swift in Sources */,
 				4A55CA942376C44500F004FD /* ContentView.swift in Sources */,
+				D587128823F7FD3800E2F890 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

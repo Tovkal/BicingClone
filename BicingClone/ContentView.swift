@@ -1,17 +1,11 @@
 import SwiftUI
 import Combine
 
-struct Station {
-    let latitude: Double
-    let longitude: Double
-}
-
 struct TestButton: View {
     @ObservedObject var viewModel: MapViewViewModel
 
     var body: some View {
         Button(action: {
-            self.viewModel.testButtonTap.send()
         }) {
             Text("Click to add a station at a random location")
         }
@@ -63,8 +57,8 @@ struct MapView: UIViewRepresentable {
         uiView.removeAnnotations(uiView.annotations)
         for station in stations {
             let annotation = MKPointAnnotation()
-            let coordinate = CLLocationCoordinate2D(latitude: station.latitude,
-                                                    longitude: station.longitude)
+            let coordinate = CLLocationCoordinate2D(latitude: station.lat,
+                                                    longitude: station.lon)
             annotation.coordinate = coordinate
             uiView.addAnnotation(annotation)
         }
@@ -73,30 +67,25 @@ struct MapView: UIViewRepresentable {
 
 class MapViewViewModel: ObservableObject {
 
-    @Published var stations: [Station] = [] {
-        didSet {
-            print(stations)
-        }
-    }
-    let testButtonTap = PassthroughSubject<Void, Never>()
+    @Published var stations: [Station] = []
+
     private var bag: Set<AnyCancellable> = []
+    let apiProvider = APIProvider()
 
     init() {
-        stations.append(contentsOf: [
-        .init(latitude: 41.4048, longitude: 2.1939),
-        .init(latitude: 41.4024, longitude: 2.1929)
-        ])
-        
-        testButtonTap
-            .sink {
-                self.addRandomStation()
+        apiProvider.fetchStations()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    print("DONE!")
+                    break
+                }
+            }) { (result) in
+                self.stations.append(contentsOf: result)
         }
         .store(in: &bag)
-    }
-    
-    private func addRandomStation() {
-        let randomLatitude = Double.random(in: 41.402...41.404)
-        let randomLongitude = Double.random(in: 2.192...2.194)
-        self.stations.append(.init(latitude: randomLatitude, longitude: randomLongitude))
     }
 }
