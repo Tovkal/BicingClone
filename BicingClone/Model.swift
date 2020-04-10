@@ -1,6 +1,8 @@
 import Foundation
 import Combine
 
+// MARK: - Constants
+
 enum ApiConstants {
     case stationInformationEndpoint
     case stationStatusEndpoint
@@ -22,7 +24,8 @@ extension ApiConstants {
     }
 }
 
-// MARK: - StationStatusResponse
+// MARK: - Model
+
 struct StationStatusResponse: Codable {
     let lastUpdated: Int
     let ttl: Int
@@ -35,7 +38,6 @@ struct StationStatusResponse: Codable {
     }
 }
 
-// MARK: - StatusDataClass
 struct StatusDataClass: Codable {
     let stations: [StatusStation]
 
@@ -44,7 +46,6 @@ struct StatusDataClass: Codable {
     }
 }
 
-// MARK: - Station
 struct StatusStation: Codable {
     let stationId: String
     let numBikesAvailable: Int
@@ -73,7 +74,6 @@ struct StatusStation: Codable {
     }
 }
 
-// MARK: - NumBikesAvailableTypes
 struct NumBikesAvailableTypes: Codable {
     let mechanical: Int
     let ebike: Int
@@ -91,10 +91,6 @@ enum Status: String, Codable {
     case maintinance = "MAINTENANCE"
 }
 
-
-////
-
-// MARK: - StationInformationResponse
 struct StationInformationResponse: Codable {
     let lastUpdated: Int
     let ttl: Int
@@ -107,7 +103,6 @@ struct StationInformationResponse: Codable {
     }
 }
 
-// MARK: - DataClass
 struct InformationDataClass: Codable {
     let stations: [InformationStation]
 
@@ -116,7 +111,6 @@ struct InformationDataClass: Codable {
     }
 }
 
-// MARK: - Station
 struct InformationStation: Codable {
     let stationId: String
     let name: String
@@ -142,8 +136,6 @@ struct InformationStation: Codable {
         case crossStreet = "cross_street"
     }
 }
-
-// MARK: - Station
 
 struct Station: Codable {
     let stationId: String
