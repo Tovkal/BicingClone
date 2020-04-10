@@ -88,6 +88,7 @@ enum Status: String, Codable {
     case inService = "IN_SERVICE"
     case planned = "PLANNED"
     case notInService = "NOT_IN_SERVICE"
+    case maintinance = "MAINTENANCE"
 }
 
 
